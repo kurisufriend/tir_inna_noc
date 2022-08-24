@@ -5,16 +5,24 @@ defmodule TirInnaNoc.Imageboard do
   #plug Tesla.Middleware.Headers, [{"authorization", "token xyz"}]
   plug Tesla.Middleware.JSON
 
+  def wget(uri) do
+    if GenServer.call(:ratelimiter, :activate) == :goahead do
+      get(uri)
+    else
+      Process.sleep(1000)
+      wget(uri)
+    end
+  end
   def boards() do
-    get("/boards.json")
+    wget("/boards.json")
   end
   def threads(board) do
-    get("/"<>board<>"/threads.json")
+    wget("/"<>board<>"/threads.json")
   end
   def thread(board, id) do
-    get("/"<>board<>"/thread/"<>to_string(id)<>".json")
+    wget("/"<>board<>"/thread/"<>to_string(id)<>".json")
   end
   def catalog(board) do
-    get("/"<>board<>"/catalog.json")
+    wget("/"<>board<>"/catalog.json")
   end
 end

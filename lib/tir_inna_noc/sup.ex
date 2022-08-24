@@ -9,6 +9,7 @@ defmodule TirInnaNoc.Sup do
   def init(:ok) do
     children = [
       {TirInnaNoc.Db, [nil]},
+      {TirInnaNoc.Rate, [nil]},
       {DynamicSupervisor, strategy: :one_for_one, name: MerlinSupervisor},
       {TirInnaNoc.Merlin, [nil]}
     ]
