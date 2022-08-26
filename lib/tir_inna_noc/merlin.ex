@@ -13,7 +13,7 @@ defmodule TirInnaNoc.Merlin do
       DynamicSupervisor.start_child(
         MerlinSupervisor, {DynamicSupervisor, strategy: :one_for_one, name: String.to_atom(board<>"Supervisor")}
       )
-      DynamicSupervisor.start_child(MerlinSupervisor, {TirInnaNoc.Meldh, {board, %{}}})
+      DynamicSupervisor.start_child(MerlinSupervisor, {TirInnaNoc.Meldh, %TirInnaNoc.Imageboard.Board{board: board, threads: %{}}})
     end)
     {:ok, a}
   end

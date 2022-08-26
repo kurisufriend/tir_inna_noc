@@ -13,7 +13,7 @@ defmodule TirInnaNoc.Rate do
 
   @impl true
   def handle_call(:activate, _, last_activity) do
-    if :os.system_time(:millisecond) - last_activity > 10_000 do
+    if :os.system_time(:millisecond) - last_activity > 1_000 do
       last_activity = :os.system_time(:millisecond)
       {:reply, :goahead, last_activity}
     else
