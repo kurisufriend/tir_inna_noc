@@ -37,6 +37,8 @@ defmodule TirInnaNoc.Perenelle do
           send(self(), {:addpost, post, sage_status})
         end)
       end
+    else
+      IO.puts("NOT UPDATING CUZ THERES NO UPDATE!!")
     end
     state = %TirInnaNoc.Imageboard.Thread{state | on_page: new_page, reply_number: new_replynum}
     send(self(), :save)

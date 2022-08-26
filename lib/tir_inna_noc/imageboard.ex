@@ -9,7 +9,7 @@ defmodule TirInnaNoc.Imageboard do
     if GenServer.call(:ratelimiter, :activate) == :goahead do
       get(uri)
     else
-      Process.sleep(1000)
+      Process.sleep(1_000)
       wget(uri)
     end
   end
