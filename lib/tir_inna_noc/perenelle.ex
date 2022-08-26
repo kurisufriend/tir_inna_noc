@@ -36,9 +36,11 @@ defmodule TirInnaNoc.Perenelle do
           sage_status = if (new_page>state.on_page and new_replynum == state.reply_number+1), do: "y", else: "n"
           send(self(), {:addpost, post, sage_status})
         end)
+      else
+        IO.puts("IM LEAVING BYE "<>inspect(state))
+        DynamicSupervisor.terminate_child(String.to_atom(state.board<>"Supervisor"), self())
+        Process.exit(self(), :fourohfour)
       end
-    else
-      IO.puts("NOT UPDATING CUZ THERES NO UPDATE!!")
     end
     state = %TirInnaNoc.Imageboard.Thread{state | on_page: new_page, reply_number: new_replynum}
     send(self(), :save)
