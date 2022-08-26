@@ -27,7 +27,7 @@ defmodule TirInnaNoc.Meldh do
               no: thread["no"],
               last_update: thread["last_modified"],
               reply_number: thread["replies"],
-              on_page: page
+              on_page: page["page"]
             }
           }
         )

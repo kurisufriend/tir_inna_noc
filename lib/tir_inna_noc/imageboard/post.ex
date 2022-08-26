@@ -1,3 +1,3 @@
 defmodule TirInnaNoc.Imageboard.Post do
-  defstruct postJson: "", sage: "u"
+  defstruct post: %{}, sage: "u"
 end

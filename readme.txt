@@ -1,6 +1,6 @@
 hash post/<board>/<id> ->
     string postjson
-    string sage //y/n/m/u
+    string sage //y/n
 
 hash thread/<board>/<id> ->
     string last_update

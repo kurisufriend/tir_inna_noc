@@ -9,7 +9,34 @@ defmodule TirInnaNoc.Perenelle do
   def init(state) do
     IO.puts("watching thread "<>inspect(state))
     send(String.to_atom(state.board<>"Meldh"), {:checkin, state.no, self()})
-    TirInnaNoc.Imageboard.thread(state.board, state.no) |> inspect |> IO.puts
+    send(self(), {:update, state.on_page, state.reply_number})
     {:ok, state}
+  end
+
+  @impl true
+  def handle_info({:addpost, post, sage_status}, state) do
+    state = %TirInnaNoc.Imageboard.Thread{state | posts: [%TirInnaNoc.Imageboard.Post{post: post, sage: sage_status}]++state.posts}
+    {:noreply, state}
+  end
+
+  @impl true
+  def handle_info(:save, state) do
+    TirInnaNoc.Imageboard.Thread.save(state)
+    {:noreply, state}
+  end
+
+  @impl true
+  def handle_info({:update, new_page, new_replynum}, state) do
+    {:ok, res} = TirInnaNoc.Imageboard.thread(state.board, state.no)
+    if res.status == 200 do
+      res.body["posts"]
+      |> Enum.each(fn post ->
+        sage_status = if (new_page>state.on_page and new_replynum == state.reply_number+1), do: "y", else: "n"
+        send(self(), {:addpost, post, sage_status})
+      end)
+    end
+    state = %TirInnaNoc.Imageboard.Thread{state | on_page: new_page, reply_number: new_replynum}
+    send(self(), :save)
+    {:noreply, state}
   end
 end
