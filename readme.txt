@@ -1,3 +1,7 @@
+archive for the clover website
+not named after a character from yotsuba& (sorry)
+yotsuba is very cute though that manga sold me on the fun side of having children
+
 hash post/<board>/<id> ->
     string postjson
     string sage //y/n
@@ -8,8 +12,7 @@ hash thread/<board>/<id> ->
     string reply_number
     string posts //<id>,<id>,<id>,...
 
-hash img ->
-    string <board>/<tim>/<ext> // binary
+string img <board>/<tim>/<ext> // binary
 
 set boards -> // all archived boards
     string <board>
