@@ -12,8 +12,7 @@ defmodule TirInnaNoc.Meldh do
   end
 
   @impl true
-  def init(state) do
-    IO.puts("started meldh to archive board "<>state.board)
+  def handle_info(:update, state) do
     {:ok, res} = TirInnaNoc.Imageboard.threads(state.board)
     res.body
     |> Enum.each(fn page ->
@@ -33,6 +32,13 @@ defmodule TirInnaNoc.Meldh do
         )
       end)
     end)
+    {:noreply, state}
+  end
+
+  @impl true
+  def init(state) do
+    IO.puts("started meldh to archive board "<>state.board)
+    send(self(), :update)
     {:ok, state}
   end
 end
