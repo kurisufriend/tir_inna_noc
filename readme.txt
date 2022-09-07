@@ -1,6 +1,6 @@
 archive for the clover website
 not named after a character from yotsuba& (sorry)
-yotsuba is very cute though that manga sold me on the fun side of having children
+yotsuba is very cute though
 
 hash post/<board>/<id> ->
     string postjson
